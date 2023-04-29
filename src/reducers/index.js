@@ -1,9 +1,69 @@
+import {
+    FETCH_APP_START,
+    FETCH_APP_SUCCESS,
+    FETCH_APP_FAIL,
+    ADD_MEMBER,
+    ADD_ERROR
+} from "../actions";
 
-export const initialState = {
+// 1. state slices
+const initialState = {
+    smurfs: [],
+    isFetching: false,
+    error: ''
 }
 
-const reducer = ()=>{
+// id:"",
+// name:'',
+// position:'',
+// nickname: '',
+// description: '',
+
+
+
+
+// 2. add state and action args 
+
+export const reducer = (state = initialState, action)=>{
+    console.log('state:', state)
+    console.log('action:', action);
+
+    switch(action.type){
+        //3-5. REDUCER CASES
+        case FETCH_APP_START:
+            return{
+                ...state,
+                isFetching: true,
+                error: '',
+            };
+        case FETCH_APP_SUCCESS:
+            return{
+                ...state,
+                smurfs: action.payload,
+                isFetching: false,
+                error: ''
+            };
+        case FETCH_APP_FAIL:
+            return{
+                ...state,
+                isFetching: false,
+                error: ''
+            };
+        case ADD_MEMBER:
+            return{
+                ...state,
+                smurfs: []
+            };
+        case ADD_ERROR:
+            return{
+                ...state,
+                error: state.error + ' ' + action.payload
+            };
+        default: return state;
+    }
+
 }
+
 
 //**************DO NOT EDIT ANY CODE BEYOND THIS POINT**************//
 export default reducer;
@@ -11,7 +71,7 @@ export default reducer;
 //Task List:
 //1. Adds the following state values into the initialState:
 //  - an array of smurfs
-//  - a boolean indicating if the app is loading
+//  - a boolean indicating if the app is loading (t/f)
 //  - a string indicating a possible error message
 
 //2. Add in the arguments needed to complete a standard reducer function.
