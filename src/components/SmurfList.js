@@ -28,9 +28,9 @@ import {addMember} from '../actions';
 
     return(<div className="listContainer">
         {/* 2. */}
-        {props.smurfs.map(smurf => (
+        {props.smurfs.map(smurf => (        
             <Smurf key={smurf.id} smurf={smurf}/>
-        ))}
+            ))}
     </div>);
 }
 

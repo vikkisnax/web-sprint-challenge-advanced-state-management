@@ -33,15 +33,16 @@ export const fetchSmurfs = () => dispatch => {
                 
 }
 
-// 2. normal action - fix
+// 2. normal actions
 export const addMember = (smurf) => {
+    console.log('smurf action :', smurf)
     return({
         type: ADD_MEMBER,
         payload: smurf
     })
 }
 
-// 3. fix
+// 3. 
 export const addError = (error) =>{
     return({
         type: ADD_ERROR,

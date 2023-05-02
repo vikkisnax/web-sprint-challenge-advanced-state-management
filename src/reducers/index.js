@@ -25,8 +25,9 @@ const initialState = {
 // 2. add state and action args 
 
 export const reducer = (state = initialState, action)=>{
-    console.log('state:', state)
+
     console.log('action:', action);
+    console.log('action.payload = smurf = state', action.payload);
 
     switch(action.type){
         //3-5. REDUCER CASES
@@ -50,14 +51,14 @@ export const reducer = (state = initialState, action)=>{
                 error: ''
             };
         case ADD_MEMBER:
-            return{
+            return {
                 ...state,
-                smurfs: []
+                smurfs: [...state.smurfs, action.payload]
             };
         case ADD_ERROR:
             return{
                 ...state,
-                error: state.error + ' ' + action.payload
+                error: action.payload
             };
         default: return state;
     }
