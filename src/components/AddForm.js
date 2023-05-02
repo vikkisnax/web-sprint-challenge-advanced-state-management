@@ -1,4 +1,9 @@
 import React, { useState } from 'react';
+import { connect } from "react-redux";
+// 1b. importing action bc writing going to get info inside action to dispatch to reducer, so reducer can update state and the UI
+// 1c. fetchSmurfs
+import { addMember, addError } from '../actions';
+
 
 const AddForm = (props) => {
     const [state, setState] = useState({
@@ -8,22 +13,29 @@ const AddForm = (props) => {
         description:""
     });
 
+    // 1b and 2 -- don't need -- use error action -- in handleSubmit
     //remove when error state is added
-    const errorMessage = "";
+    // const errorMessage = "";
+    // const [errorMessage, setErrorMessage] = useState('');
 
     const handleChange = e => {
         setState({
             ...state,
-            [e.target.name]:e.target.value
+            [e.target.name]: e.target.value
         });
     }
 
+    // 3
     const handleSubmit = e => {
+        console.log('in handle submit', state)
         e.preventDefault();
         if (state.name === "" || state.position === "" || state.nickname === "") {
             //dispatch a custom error action
+            // setErrorMessage('OH NOOOO');
+            props.addError('name, position, nickname required')
         } else {
-            //dispatch an addSmurf action
+            //dispatch an addSmurf action (I named it addMember)
+            props.addMember({...state, id:Math.random()})
         }
     }
 
@@ -32,29 +44,63 @@ const AddForm = (props) => {
         <form onSubmit={handleSubmit}>
             <div className="form-group">
                 <label htmlFor="name">Name:</label><br/>
-                <input onChange={handleChange} value={state.name} name="name" id="name" />
+                <input 
+                    onChange={handleChange} 
+                    value={state.name} 
+                    name="name" 
+                    id="name" 
+                    />
             </div>
             <div className="form-group">
                 <label htmlFor="position">Position:</label><br/>
-                <input onChange={handleChange} value={state.position} name="position" id="position" />
+                <input 
+                    onChange={handleChange} 
+                    value={state.position} 
+                    name="position" 
+                    id="position" 
+                    />
             </div>
             <div className="form-group">
                 <label htmlFor="nickname">Nickname:</label><br/>
-                <input onChange={handleChange} value={state.nickname} name="nickname" id="nickname" />
+                <input 
+                    onChange={handleChange} 
+                    value={state.nickname} 
+                    name="nickname" 
+                    id="nickname" 
+                    />
             </div>
             <div className="form-group">
                 <label htmlFor="description">Description:</label><br/>
-                <textarea onChange={handleChange} value={state.description} name="description" id="description" />
+                <textarea 
+                    onChange={handleChange} 
+                    value={state.description} 
+                    name="description" 
+                    id="description" 
+                />
             </div>
             {
-                errorMessage && <div data-testid="errorAlert" className="alert alert-danger" role="alert">Error: {errorMessage}</div>
+                props.error && <div data-testid="errorAlert" className="alert alert-danger" role="alert">Error: {props.error}</div>
             }
-            <button>Submit Smurf</button>
+            <button onClick={(handleSubmit)}>Submit Smurf</button>
         </form>
     </section>);
 }
 
-export default AddForm;
+const mapStateToProps = state => {
+  return {
+    smurfs: state.smurfs,
+    error: state.error
+  };
+};
+//connecting action {addMember} 
+//reference reducers with state.smurfs, for ex. 
+
+export default connect(mapStateToProps, {addMember, addError})(AddForm);
+
+
+
+
+
 
 //Task List:
 //1. Connect the errorMessage, setError and addSmurf actions to the AddForm component.
